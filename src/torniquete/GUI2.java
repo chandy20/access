@@ -9,26 +9,25 @@ package torniquete;
  *
  * @author Developer
  */
+import java.awt.Color;
 import java.sql.Connection;
+import java.util.ArrayList;
 
 public class GUI2 extends javax.swing.JFrame {
 
     int sw;
-    /**
+    int even_id;
+    ArrayList lisids = new ArrayList();
+    TorniqueteDAO control = new TorniqueteDAO();
+    
+    /*
      * Creates new form GUI2
      */
-    //Communicator object
-    Communicator communicator = null;
-    //KeybindingController object
-    KeybindingController keybindingController = null;
-
     public GUI2() {
         sw = 0;
         initComponents();
+        this.setExtendedState(this.MAXIMIZED_BOTH);
         createObjects();
-        communicator.searchForPorts();
-        keybindingController.toggleControls();
-        keybindingController.bindKeys();
         Connection connection = Conexion.getConnection();
         if (connection != null) {
             System.out.print(connection);
@@ -37,8 +36,18 @@ public class GUI2 extends javax.swing.JFrame {
     }
 
     private void createObjects() {
-        communicator = new Communicator(this);
-        keybindingController = new KeybindingController(this);
+        ArrayList eventos = (ArrayList)control.consultarEventos();
+        if (eventos != null) {
+            for (int i = 1; i < eventos.size(); i = i+2) {
+                jComboBox1.addItem(eventos.get(i));
+            }
+            for (int i = 0; i < eventos.size(); i=i+2) {
+                lisids.add(eventos.get(i));
+            }
+        } else {
+            lisids = null;
+            jLabel1.setText("NO EXISTEN EVENTOS ACTIVOS");
+        }
     }
 
     /**
@@ -51,55 +60,43 @@ public class GUI2 extends javax.swing.JFrame {
     private void initComponents() {
 
         jLayeredPane1 = new javax.swing.JLayeredPane();
-        cboxPorts = new java.awt.Choice();
-        btnDisconnect = new java.awt.Button();
-        btnConnect = new java.awt.Button();
+        jComboBox1 = new javax.swing.JComboBox();
+        jButton1 = new javax.swing.JButton();
         txtCodigo = new java.awt.TextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         lblLogo = new javax.swing.JLabel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+		setUndecorated(true);
         setBackground(new java.awt.Color(255, 255, 255));
+        setPreferredSize(new java.awt.Dimension(1280, 800));
         setResizable(false);
 
         jLayeredPane1.setBackground(new java.awt.Color(255, 255, 255));
         jLayeredPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        jLayeredPane1.setPreferredSize(new java.awt.Dimension(1024, 768));
+        jLayeredPane1.setPreferredSize(new java.awt.Dimension(1280, 800));
 
-        cboxPorts.setBackground(new java.awt.Color(255, 255, 0));
-
-        btnDisconnect.setLabel("Desconectar");
-        btnDisconnect.setVisible(false);
-        btnDisconnect.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnDisconnectMouseClicked(evt);
-            }
-        });
-        btnDisconnect.addActionListener(new java.awt.event.ActionListener() {
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDisconnectActionPerformed(evt);
+                jComboBox1ActionPerformed(evt);
             }
         });
 
-        btnConnect.setLabel("Conectar");
-        btnConnect.setVisible(false);
-        btnConnect.addMouseListener(new java.awt.event.MouseAdapter() {
+        jButton1.setText("SELECCIONAR");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnConnectMouseClicked(evt);
+                jButton1MouseClicked(evt);
             }
         });
 
         txtCodigo.setForeground(new java.awt.Color(255, 255, 255));
-        txtCodigo.setText("1");
-        txtCodigo.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                txtCodigoInputMethodTextChanged(evt);
-            }
-        });
         txtCodigo.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtCodigoFocusGained(evt);
@@ -110,35 +107,71 @@ public class GUI2 extends javax.swing.JFrame {
                 txtCodigoPropertyChange(evt);
             }
         });
+        txtCodigo.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                txtCodigoInputMethodTextChanged(evt);
+            }
+        });
         txtCodigo.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
                 txtCodigoKeyPressed(evt);
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Comic Sans MS", 1, 36)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 0, 153));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("SELECCIONE EVENTO");
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/close.png"))); // NOI18N
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
+
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/update.png"))); // NOI18N
+        jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel6MouseClicked(evt);
+            }
+        });
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 34)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 0, 153));
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 34)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 153));
         jLabel1.setText("BIENVENIDO");
 
-        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png"))); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Tahoma", 3, 24)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel7.setText("ACCESS CONTROL");
 
-        jDesktopPane1.setMaximumSize(new java.awt.Dimension(1024, 768));
-        jDesktopPane1.setPreferredSize(new java.awt.Dimension(1024, 720));
+        lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
+        jDesktopPane1.setMaximumSize(new java.awt.Dimension(1200, 800));
+        jDesktopPane1.setPreferredSize(new java.awt.Dimension(1280, 800));
+
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/pantalla.jpg"))); // NOI18N
-        jLabel2.setMaximumSize(new java.awt.Dimension(1024, 768));
-        jLabel2.setMinimumSize(new java.awt.Dimension(1024, 768));
-        jLabel2.setPreferredSize(new java.awt.Dimension(1024, 768));
+        jLabel2.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
         jDesktopPane1.setLayout(jDesktopPane1Layout);
         jDesktopPane1Layout.setHorizontalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 1024, Short.MAX_VALUE)
+            .addGroup(jDesktopPane1Layout.createSequentialGroup()
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(0, 0, 0))
         );
         jDesktopPane1Layout.setVerticalGroup(
             jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jDesktopPane1.setLayer(jLabel2, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -147,53 +180,78 @@ public class GUI2 extends javax.swing.JFrame {
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, Short.MAX_VALUE)
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(35, 35, 35)
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(6, 6, 6))))
+            .addGroup(jLayeredPane1Layout.createSequentialGroup()
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addGap(43, 43, 43)
-                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 516, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(198, 198, 198)
-                        .addComponent(btnDisconnect, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(72, 72, 72)
-                        .addComponent(btnConnect, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(19, 19, 19)
-                        .addComponent(cboxPorts, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 908, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(106, Short.MAX_VALUE))
+                        .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                                .addGap(39, 39, 39)
+                                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                                .addGap(264, 264, 264)
+                                .addComponent(jButton1)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jDesktopPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cboxPorts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnDisconnect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnConnect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(9, 9, 9)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 133, Short.MAX_VALUE)
+                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(180, 180, 180)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                    .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
-        jLayeredPane1.setLayer(cboxPorts, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(btnDisconnect, javax.swing.JLayeredPane.DEFAULT_LAYER);
-        jLayeredPane1.setLayer(btnConnect, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jComboBox1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(txtCodigo, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel6, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(lblLogo, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jDesktopPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
@@ -201,11 +259,13 @@ public class GUI2 extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -221,54 +281,50 @@ public class GUI2 extends javax.swing.JFrame {
             //Ahora tomo el codigo y consulto en la base de datos si el usuario esta en la base de datos
             TorniqueteDAO dao = new TorniqueteDAO();
             String torniquete_id = "1";
-            String event_id = "8";
 
             //restar ultimo digito de la cadena
-            codigo = codigo.substring(1, codigo.length());
+            codigo = codigo.substring(0, codigo.length()-1);
             System.out.println("cadena = " + codigo);
             String nombre = dao.obtenerPersona(codigo);
 
             String x = dao.consultarUltimoRegistro(codigo, torniquete_id);
             if (x.equals("false")) {
-                int resultado = dao.validarTarjeta(codigo, torniquete_id, event_id);
+                int resultado = dao.validarTarjeta(codigo, torniquete_id, String.valueOf(even_id));
                 switch (resultado) {
                     case 0:
-                        communicator.permitirentrar();
-                        //                    dao.registrarEntrada(codigo);
-                        //                    showMessageDialog(null, "Bievenido, gracias por su ingreso");
                         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
+                        jLabel1.setForeground(new Color(44, 139, 25));
                         jLabel1.setText("BIENVENIDO " + nombre);
                         break;
                     case 1:
-                        //                    showMessageDialog(null, "La entrada ya ha sido usada");
                         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
-                        jLabel1.setText("La entrada ya ha sido usada");
+                        jLabel1.setForeground(new Color(191, 61, 39));
+                        jLabel1.setText("LA ENTRADA YA HA SIDO USADA");
                         break;
                     case -1:
-                        //                    showMessageDialog(null, "Se sobrepaso el limite de entradas");
-                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning.png")));
-                        jLabel1.setText("Se sobrepaso el limite de entradas a las " + dao.obtenerUltimoIngreso(codigo));
-
+                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
+                        jLabel1.setForeground(new Color(67, 67, 255));
+                        jLabel1.setText("SE SOBREPASO EL LIMITE DE ENTRADAS EL " + dao.obtenerUltimoIngreso(codigo));
                         break;
                     case -2:
-                        //                    showMessageDialog(null, "Entrada no permitida");
-                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning.png")));
-                        jLabel1.setText("Entrada no permitida");
+                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning1.png")));
+                        jLabel1.setForeground(new Color(234, 144, 1));
+                        jLabel1.setText("ENTRADA NO PERMITIDA");
                         break;
                     case -3:
-                        //                    showMessageDialog(null, "Tarjeta no se encuentra registrada");
-                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning.png")));
-                        jLabel1.setText("Tarjeta no se encuentra registrada");
+                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning1.png")));
+                        jLabel1.setForeground(new Color(234, 144, 1));
+                        jLabel1.setText("CODIGO NO REGISTRADO");
                         break;
                     case -4:
-                        //                    showMessageDialog(null, "Tarjeta no valida para este evento");
                         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
-                        jLabel1.setText("Tarjeta no valida para este evento");
+                        jLabel1.setForeground(new Color(191, 61, 39));
+                        jLabel1.setText("CODIGO NO VALIDO");
                         break;
                 }
             } else {
                 if (nombre != null || !nombre.equals("")) {
-                    jLabel1.setText(nombre + " Su entrada ya se registro");
+                    jLabel1.setText(nombre + " SU ENTRADA YA SE REGISTRO");
                 }
             }
             txtCodigo.setText(null);
@@ -282,10 +338,6 @@ public class GUI2 extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.out.println("Cambiando texto");
     }//GEN-LAST:event_txtCodigoInputMethodTextChanged
-
-    private void btnDisconnectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDisconnectMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDisconnectMouseClicked
 
     private void txtCodigoPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_txtCodigoPropertyChange
 
@@ -301,24 +353,39 @@ public class GUI2 extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtCodigoFocusGained
 
-    private void btnConnectMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnConnectMouseClicked
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-        communicator.connect();
-        if (communicator.getConnected() == true) {
-            if (communicator.initIOStream() == true) {
-                communicator.initListener();
-                btnConnect.setVisible(false);
-                btnDisconnect.setVisible(false);
-                cboxPorts.setVisible(false);
-                //                txtCodigo.setVisible(false);
-                txtCodigo.requestFocus();
-            }
-        }
-    }//GEN-LAST:event_btnConnectMouseClicked
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void btnDisconnectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDisconnectActionPerformed
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnDisconnectActionPerformed
+        if (lisids != null) {
+            even_id = (int)lisids.get(jComboBox1.getSelectedIndex());
+            jLabel4.setText((String)jComboBox1.getSelectedItem());
+            jLabel3.setVisible(false);
+            jComboBox1.setVisible(false);
+            jButton1.setVisible(false);
+            txtCodigo.setVisible(true);
+            txtCodigo.requestFocus();
+        }
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jLabel5MouseClicked
+
+    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
+        // TODO add your handling code here:
+        jLabel3.setVisible(true);
+        jComboBox1.setVisible(true);
+        jButton1.setVisible(true);
+        txtCodigo.setVisible(false);
+        lblLogo.setVisible(false);
+        jLabel4.setText("");
+        jLabel1.setForeground(new Color(0,0,153));
+        jLabel1.setText("BIENVENIDO");
+    }//GEN-LAST:event_jLabel6MouseClicked
 
     /**
      * @param args the command line arguments
@@ -356,14 +423,18 @@ public class GUI2 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public java.awt.Button btnConnect;
-    public java.awt.Button btnDisconnect;
-    java.awt.Choice cboxPorts;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JDesktopPane jDesktopPane1;
     public javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLayeredPane jLayeredPane1;
     public javax.swing.JLabel lblLogo;
-    private java.awt.TextField txtCodigo;
+    public java.awt.TextField txtCodigo;
     // End of variables declaration//GEN-END:variables
 }

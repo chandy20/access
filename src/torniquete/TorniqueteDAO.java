@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
@@ -26,71 +27,35 @@ public class TorniqueteDAO {
         connection = Conexion.getConnection();
     }
 
-    public void entrada() {
-//	    	try {
-//	    	
-//	            Statement statement = connection.createStatement();
-//	            statement.execute("INSERT INTO torniquetes (entrada,salida) VALUE (1,0)");
-//	           
-//	        } catch (SQLException e) {
-//	            e.printStackTrace();
-//	        }
-    }
-
-    public void salida() {
-//	    	try {
-//	    	
-//	            Statement statement = connection.createStatement();
-//	            statement.execute("INSERT INTO torniquetes (entrada,salida) VALUE (0,1)");
-//	           
-//	        } catch (SQLException e) {
-//	            e.printStackTrace();
-//	        }
-    }
-
-    public int contarEntrada() {
-//	    	int cont = 0;
-//	        try {
-//	            Statement statement = connection.createStatement();
-//	            ResultSet rs = statement.executeQuery("select sum(entrada) from torniquetes");
-//	            if (rs.next()) {
-//	            	cont =  rs.getInt(1);
-//	            }
-//	        } catch (SQLException e) {
-//	            e.printStackTrace();
-//	        }
-//
-//	        return cont;
-        return 1;
-
-    }
-
-    public int contarSalida() {
-        int cont = 0;
-//	        try {
-//	            Statement statement = connection.createStatement();
-//	            ResultSet rs = statement.executeQuery("select sum(salida) from torniquetes");
-//	            if (rs.next()) {
-//	            	cont =  rs.getInt(1);
-//	            }
-//	        } catch (SQLException e) {
-//	            e.printStackTrace();
-//	        }
-
-        return cont;
-
+    public ArrayList consultarEventos(){
+        ArrayList listado = new ArrayList();
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT id, even_nombre FROM events WHERE even_fechInicio <= NOW() AND even_fechFinal >= NOW()");
+            if (rs != null) {
+                while (rs.next()) {
+                    //ahora tomo los datos de la consulta
+                    listado.add(rs.getInt("id"));
+                    listado.add(rs.getString("even_nombre"));
+                }
+                rs.close();
+            } else {
+                listado = null;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listado;
     }
 
     /**
      * Esta funcion se encarga de dado el codigo de la tarjeta validar si se
      * puede ingresar
-     *
      * @param codigo
      * @return -4 Si la tarjeta no pertenece al evento \n -3 Si la tarjeta no se
      * encuentra en el sistema \n -2 Si la entrada no permite esa categoria de
      * entrada \n -1 Si excedio el limite de entradas \n 0 Si puede entrar
      * normal \n
-     *
      */
     public int validarTarjeta(String codigo, String torniquete_id, String event_id) {
         String sql = "select id, categoria_id from inputs where entr_codigo=" + codigo;
@@ -102,19 +67,16 @@ public class TorniqueteDAO {
             if (rs != null) {
                 if (rs.next()) {
                     //ahora tomo los datos de la consulta
-
-                    
                     datos.put("input_id", String.valueOf(rs.getInt("id")));
-                    datos.put("category_id", String.valueOf(rs.getInt("categoria_id")));
-
+                    datos.put("categoria_id", String.valueOf(rs.getInt("categoria_id")));
+                    System.out.println("cate "+datos.get("categoria_id"));
                     //Determino si esa categoria pertenece a ese evento
-                    sql = "select event_id from categorias where id=" + datos.get("category_id");
+                    sql = "select event_id from inputs where id=" + datos.get("input_id");
                     rs.close();
                     ResultSet rs3 = statement.executeQuery(sql);
                     if (rs3 != null) {
                         if (rs3.next()) {
                             datos.put("event_id", String.valueOf(rs3.getInt("event_id")));
-                            System.out.println("event_id: " + datos.get("event_id"));
                             //Comparo el evento de la categoria con el evento del torniquete
                             if (event_id.equals(datos.get("event_id"))) {
                                 //Determino si la entrada puede recibir esa tarjeta
@@ -124,7 +86,8 @@ public class TorniqueteDAO {
                                         + " INNER JOIN entradas e ON e.id = e_t.entrada_id"
                                         + " INNER JOIN categorias_entradas c_e ON c_e.entrada_id = e.id"
                                         + " WHERE e_t.torniquete_id ="+torniquete_id+""
-                                        + " AND c_e.categoria_id ="+datos.get("category_id")+""
+                                        + " AND c_e.categoria_id ="+datos.get("categoria_id")
+                                        + " AND c_e.event_id = " + datos.get("event_id")
                                         + " LIMIT 0 , 30";
                                 System.out.println("sql:"+sql);
                                 rs3.close();
@@ -140,7 +103,7 @@ public class TorniqueteDAO {
                                         System.out.println("ingresos: " + ingresos);
                                         if (ingresos >= 0) {
                                             //Valido si cumple las reglas de la tabla validation
-                                            int cantidad_reingreso_permitidos = this.getCantidadIngresosByValidation(datos.get("category_id"), statement);
+                                            int cantidad_reingreso_permitidos = this.getCantidadIngresosByValidation(datos.get("categoria_id"), statement);
                                             System.out.println("cantidad_reingreso_permitidos: " + cantidad_reingreso_permitidos);
                                             if (ingresos < cantidad_reingreso_permitidos || cantidad_reingreso_permitidos == 0) {
                                                 //Puede entrar, por ende registro la entrada
@@ -261,7 +224,7 @@ public class TorniqueteDAO {
         Date date = new Date();
         System.out.println("Fecha Sistema: " + dateFormat.format(date));
         String sql = "select cantidad_reingresos from validations where ('" + dateFormat.format(date) + "' BETWEEN fechainicio and fechafin) and categoria_id=" + category_id;
-//        System.out.println("sql: "+sql);
+        System.out.println("sql: "+sql);
         try {
             ResultSet rs = statement.executeQuery(sql);
             if (rs != null) {
@@ -380,7 +343,7 @@ public class TorniqueteDAO {
 //                System.out.println("fecha inicio: " + calFechaInicial + "Fecha fin: " + calFechaFinal);
                 long segundos = ((calFechaFinal.getTimeInMillis() - calFechaInicial.getTimeInMillis()) / 1000);
                 System.out.println("segundos: " + segundos);
-                if (segundos > 30) {
+                if (segundos > 10) {
                     respuesta = "false";
                 } else {
                     respuesta = "true";
