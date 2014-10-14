@@ -98,6 +98,11 @@ public class GUI2 extends javax.swing.JFrame {
         });
 
         txtCodigo.setForeground(new java.awt.Color(255, 255, 255));
+        txtCodigo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCodigoActionPerformed(evt);
+            }
+        });
         txtCodigo.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtCodigoFocusGained(evt);
@@ -285,73 +290,6 @@ public class GUI2 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtCodigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCodigoKeyPressed
-
-        //Tomo el texto y determino el tamaño
-        String codigo = txtCodigo.getText();
-
-        if (codigo.length() == 13) {
-            sw = 1;
-            //Ahora tomo el codigo y consulto en la base de datos si el usuario esta en la base de datos
-            TorniqueteDAO dao = new TorniqueteDAO();
-            String torniquete_id = "1";
-
-            //restar ultimo digito de la cadena
-            codigo = codigo.substring(0, codigo.length()-1);
-            System.out.println("cadena = " + codigo);
-            String nombre = dao.obtenerPersona(codigo);
-
-            String x = dao.consultarUltimoRegistro(codigo, torniquete_id);
-            if (x.equals("false")) {
-                int resultado = dao.validarTarjeta(codigo, torniquete_id, String.valueOf(even_id));
-                switch (resultado) {
-                    case 0:
-                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
-                        jLabel1.setForeground(new Color(44, 139, 25));
-                        jLabel1.setText("BIENVENIDO " + nombre);
-                        break;
-                    case 1:
-                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning1.png")));
-                        jLabel1.setForeground(new Color(234, 144, 1));
-                        jLabel1.setText("NO EXISTE VALIDACION PARA LA CATEGORIA");
-                        break;
-                    case 2:
-                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
-                        jLabel1.setForeground(new Color(67, 67, 255));
-                        jLabel1.setText("ULTIMA ENTRADA VALIDA " + dao.obtenerUltimoIngreso(codigo));
-                        break;
-                    case 3:
-                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
-                        jLabel1.setForeground(new Color(67, 67, 255));
-                        jLabel1.setText("NO PUEDE INGRESAR POR ESTA ENTRADA");
-                        break;
-                    case 4:
-                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
-                        jLabel1.setForeground(new Color(191, 61, 39));
-                        jLabel1.setText("ENTRADA NO VALIDA PARA ESTE EVENTO");
-                        break;
-                    case 5:
-                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
-                        jLabel1.setForeground(new Color(191, 61, 39));
-                        jLabel1.setText("CODIGO NO VALIDO");
-                        break;
-//                    case 1:
-//                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
-//                        jLabel1.setForeground(new Color(191, 61, 39));
-//                        jLabel1.setText("LA ENTRADA YA HA SIDO USADA");
-//                        break;
-                }
-            } else {
-                if (nombre != null || !nombre.equals("")) {
-                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
-                    jLabel1.setForeground(new Color(44, 139, 25));
-                    jLabel1.setText(nombre + " SU ENTRADA YA SE REGISTRO");
-                }
-            }
-            txtCodigo.setText(null);
-            txtCodigo.requestFocus();
-            System.out.println("sw " + 1);
-        }
-
     }//GEN-LAST:event_txtCodigoKeyPressed
 
     private void txtCodigoInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_txtCodigoInputMethodTextChanged
@@ -411,6 +349,74 @@ public class GUI2 extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.setExtendedState(this.CROSSHAIR_CURSOR); 
     }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
+        // TODO add your handling code here:
+        //Tomo el texto y determino el tamaño
+        String codigo = txtCodigo.getText();
+
+        sw = 1;
+        //Ahora tomo el codigo y consulto en la base de datos si el usuario esta en la base de datos
+        TorniqueteDAO dao = new TorniqueteDAO();
+        String torniquete_id = "1";
+
+        //restar ultimo digito de la cadena
+        codigo = codigo.substring(0, 12);
+        System.out.println("cadena = " + codigo);
+        String nombre = dao.obtenerPersona(codigo);
+
+        String x = dao.consultarUltimoRegistro(codigo, torniquete_id);
+        if (x.equals("false")) {
+            int resultado = dao.validarTarjeta(codigo, torniquete_id, String.valueOf(even_id));
+            switch (resultado) {
+                case 0:
+                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
+                    jLabel1.setForeground(new Color(44, 139, 25));
+                    jLabel1.setText("BIENVENIDO " + nombre);
+                    break;
+                case 1:
+                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning1.png")));
+                    jLabel1.setForeground(new Color(234, 144, 1));
+                    jLabel1.setText("NO EXISTE VALIDACION PARA LA CATEGORIA");
+                    break;
+                case 2:
+                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
+                    jLabel1.setForeground(new Color(67, 67, 255));
+                    jLabel1.setText("ULTIMA ENTRADA VALIDA " + dao.obtenerUltimoIngreso(codigo));
+                    break;
+                case 3:
+                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
+                    jLabel1.setForeground(new Color(67, 67, 255));
+                    jLabel1.setText("NO PUEDE INGRESAR POR ESTA ENTRADA");
+                    break;
+                case 4:
+                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
+                    jLabel1.setForeground(new Color(191, 61, 39));
+                    jLabel1.setText("ENTRADA NO VALIDA PARA ESTE EVENTO");
+                    break;
+                case 5:
+                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
+                    jLabel1.setForeground(new Color(191, 61, 39));
+                    jLabel1.setText("CODIGO NO VALIDO");
+                    break;
+//                    case 1:
+//                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
+//                        jLabel1.setForeground(new Color(191, 61, 39));
+//                        jLabel1.setText("LA ENTRADA YA HA SIDO USADA");
+//                        break;
+                }
+        } else {
+            if (nombre != null || !nombre.equals("")) {
+                lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
+                jLabel1.setForeground(new Color(44, 139, 25));
+                jLabel1.setText(nombre + " SU ENTRADA YA SE REGISTRO");
+            }
+        }
+        txtCodigo.setText(null);
+        txtCodigo.requestFocus();
+        System.out.println("sw " + 1);
+
+    }//GEN-LAST:event_txtCodigoActionPerformed
 
     /**
      * @param args the command line arguments
