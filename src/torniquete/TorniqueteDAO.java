@@ -60,7 +60,7 @@ public class TorniqueteDAO {
     public int validarTarjeta(String codigo, String torniquete_id, String event_id) {
         String sql = "select id, categoria_id from inputs where entr_codigo=" + codigo;
         Hashtable<String, String> datos = new Hashtable<String, String>();
-        int retornar = -9;
+        int retornar = -1;
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(sql);
@@ -110,33 +110,40 @@ public class TorniqueteDAO {
                                                 this.registrarIngresos(datos.get("input_id"), datos.get("entrada_id"), ingresos, statement);
                                                 retornar = 0;
                                                 registrarLog(retornar, torniquete_id, datos.get("input_id"),statement);
+                                            } else if (cantidad_reingreso_permitidos == -1) {
+                                                //No existe regla de validación
+                                                retornar = 1;
                                             } else {
                                                 //Excedio el limite
-                                                retornar = -1;
+                                                retornar = 2;
                                                 registrarLog(retornar, torniquete_id, datos.get("input_id"),statement);
                                             }
                                         }
                                     } else {
-                                        retornar = -2;
+                                        //Entrada física no habilitada para la categoría
+                                        retornar = 3;
                                         registrarLog(retornar, torniquete_id, datos.get("input_id"),statement);
                                     }
                                 } else {
-                                    retornar = -2;
+                                    //Entrada física no habilitada para la categoría
+                                    retornar = 3;
                                     registrarLog(retornar, torniquete_id, datos.get("input_id"),statement);
                                 }
                             } else {
-                                retornar = -4;
+                                //El código no es de el evento
+                                retornar = 4;
                                 registrarLog(retornar, torniquete_id, datos.get("input_id"),statement);
                             }
                         }
                     }
-
                 } else {
-                    retornar = -3;
+                    //Código no registrado
+                    retornar = 5;
                     registrarLog(retornar, torniquete_id, "-1",statement);
                 }
             } else {
-                retornar = -3;
+                //Código no registrado
+                retornar = 5;
                 registrarLog(retornar, torniquete_id, "-1",statement);
             }
 
@@ -251,19 +258,19 @@ public class TorniqueteDAO {
         String type="";
         switch(tipo)
         {
-            case -4:
+            case 4:
                 descripcion="Tarjeta no pertenece al evento";
                 type="RECHAZO";
                 break;
-            case -3:
+            case 5:
                 descripcion="La tarjeta no se encuentra en el sistema";
                 type="RECHAZO";
                 break;
-            case -2:
+            case 3:
                 descripcion="Entrada no permite esa tarjeta";
                 type="RECHAZO";
                 break;
-            case -1:
+            case 2:
                 descripcion="Se excedio el limite de entradas";
                 type="RECHAZO";
                 break;
@@ -294,7 +301,8 @@ public class TorniqueteDAO {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(sql);
             if (rs.next()) {
-                return rs.getString("fecha");
+                String fecha = rs.getString("fecha");
+                return fecha.substring(0,16);
             }else{
                 return null;
             }
@@ -313,8 +321,8 @@ public class TorniqueteDAO {
             ResultSet rs = statement.executeQuery(sql);
             if (rs.next()) {
                 String nombre = rs.getString("pers_primNombre");
-                String apellido = rs.getString("pers_primApellido");
-                return nombre + " " + apellido;
+//                String apellido = rs.getString("pers_primApellido");
+                return nombre;
             } else {
                 return null;
             }
