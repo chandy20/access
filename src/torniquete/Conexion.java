@@ -23,9 +23,9 @@ public class Conexion {
 //            String pwd = "";
 //            String servidor = "jdbc:mysql://localhost/tiquetes";
 
-//            String uname = "tiquetes";
-//            String pwd = "tiquetes2";
-//            String servidor = "jdbc:mysql://www.db4free.net/tiquetes";
+//            String uname = "u703774007_ch";
+//            String pwd = "tko671029";
+//            String servidor = "jdbc:mysql://mysql.hostinger.es/u703774007_tique";
 
 //            String uname = "totemgco_tiquet";
 //            String pwd = "glEok_1dpVZ%";

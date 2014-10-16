@@ -29,9 +29,10 @@ public class TorniqueteDAO {
 
     public ArrayList consultarEventos(){
         ArrayList listado = new ArrayList();
+        Date date = new Date();
         try {
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT id, even_nombre FROM events WHERE even_fechInicio <= NOW() AND even_fechFinal >= NOW()");
+            ResultSet rs = statement.executeQuery("SELECT id, even_nombre FROM events WHERE even_fechInicio <= '" + date + "' AND even_fechFinal >= '" + date + "'");
             if (rs != null) {
                 while (rs.next()) {
                     //ahora tomo los datos de la consulta
