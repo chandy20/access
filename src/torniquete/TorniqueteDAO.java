@@ -30,9 +30,11 @@ public class TorniqueteDAO {
     public ArrayList consultarEventos(){
         ArrayList listado = new ArrayList();
         Date date = new Date();
+        SimpleDateFormat Formateador = new SimpleDateFormat("yyyy-MM-dd");
+        String Fecha = Formateador.format(date);
         try {
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT id, even_nombre FROM events WHERE even_fechInicio <= '" + date + "' AND even_fechFinal >= '" + date + "'");
+            ResultSet rs = statement.executeQuery("SELECT id, even_nombre FROM events WHERE even_fechInicio <= '" + Fecha + "' AND even_fechFinal >= '" + Fecha + "'");
             if (rs != null) {
                 while (rs.next()) {
                     //ahora tomo los datos de la consulta
@@ -313,19 +315,21 @@ public class TorniqueteDAO {
         }
     }
     
-    public String obtenerPersona(String codigo){
-        String sql = "select p.pers_primNombre, p.pers_primApellido from people p, inputs i where i.entr_codigo=$1 and i.person_id=p.id";
+    public String obtenerPersona(String codigo, String event_id){
+        String sql = "select p.pers_primNombre, p.pers_primApellido from people p, inputs i where i.entr_codigo=$1 and i.event_id =$2 and i.person_id=p.id";
         sql = sql.replace("$1", codigo);
+        sql = sql.replace("$2", event_id);
         System.out.println("sql: " + sql);
+        String nombre = "";
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(sql);
             if (rs.next()) {
-                String nombre = rs.getString("pers_primNombre");
+                nombre = rs.getString("pers_primNombre");
 //                String apellido = rs.getString("pers_primApellido");
                 return nombre;
             } else {
-                return null;
+                return nombre;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -352,7 +356,7 @@ public class TorniqueteDAO {
 //                System.out.println("fecha inicio: " + calFechaInicial + "Fecha fin: " + calFechaFinal);
                 long segundos = ((calFechaFinal.getTimeInMillis() - calFechaInicial.getTimeInMillis()) / 1000);
                 System.out.println("segundos: " + segundos);
-                if (segundos > 10) {
+                if (segundos > 5) {
                     respuesta = "false";
                 } else {
                     respuesta = "true";

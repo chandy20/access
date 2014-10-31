@@ -19,7 +19,7 @@ public class GUI2 extends javax.swing.JFrame {
     int even_id;
     ArrayList lisids = new ArrayList();
     TorniqueteDAO control = new TorniqueteDAO();
-    
+
     /*
      * Creates new form GUI2
      */
@@ -36,12 +36,12 @@ public class GUI2 extends javax.swing.JFrame {
     }
 
     private void createObjects() {
-        ArrayList eventos = (ArrayList)control.consultarEventos();
+        ArrayList eventos = (ArrayList) control.consultarEventos();
         if (eventos != null) {
-            for (int i = 1; i < eventos.size(); i = i+2) {
+            for (int i = 1; i < eventos.size(); i = i + 2) {
                 jComboBox1.addItem(eventos.get(i));
             }
-            for (int i = 0; i < eventos.size(); i=i+2) {
+            for (int i = 0; i < eventos.size(); i = i + 2) {
                 lisids.add(eventos.get(i));
             }
         } else {
@@ -305,7 +305,7 @@ public class GUI2 extends javax.swing.JFrame {
     private void txtCodigoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCodigoFocusGained
         System.out.println("blaquea");
         if (sw == 1) {
-            
+
             txtCodigo.setText("");
             sw = 0;
         }
@@ -318,8 +318,8 @@ public class GUI2 extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         if (lisids != null) {
-            even_id = (int)lisids.get(jComboBox1.getSelectedIndex());
-            jLabel4.setText((String)jComboBox1.getSelectedItem());
+            even_id = (int) lisids.get(jComboBox1.getSelectedIndex());
+            jLabel4.setText((String) jComboBox1.getSelectedItem());
             jLabel3.setVisible(false);
             jComboBox1.setVisible(false);
             jButton1.setVisible(false);
@@ -341,13 +341,13 @@ public class GUI2 extends javax.swing.JFrame {
         txtCodigo.setVisible(false);
         lblLogo.setVisible(false);
         jLabel4.setText("");
-        jLabel1.setForeground(new Color(0,0,153));
+        jLabel1.setForeground(new Color(0, 0, 153));
         jLabel1.setText("BIENVENIDO");
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
         // TODO add your handling code here:
-        this.setExtendedState(this.CROSSHAIR_CURSOR); 
+        this.setExtendedState(this.CROSSHAIR_CURSOR);
     }//GEN-LAST:event_jLabel8MouseClicked
 
     private void txtCodigoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCodigoActionPerformed
@@ -363,54 +363,62 @@ public class GUI2 extends javax.swing.JFrame {
         //restar ultimo digito de la cadena
         codigo = codigo.substring(0, 12);
         System.out.println("cadena = " + codigo);
-        String nombre = dao.obtenerPersona(codigo);
-
+        String nombre = dao.obtenerPersona(codigo, String.valueOf(even_id));
         String x = dao.consultarUltimoRegistro(codigo, torniquete_id);
-        if (x.equals("false")) {
-            int resultado = dao.validarTarjeta(codigo, torniquete_id, String.valueOf(even_id));
-            switch (resultado) {
-                case 0:
-                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
-                    jLabel1.setForeground(new Color(44, 139, 25));
-                    jLabel1.setText("BIENVENIDO " + nombre);
-                    break;
-                case 1:
-                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning1.png")));
-                    jLabel1.setForeground(new Color(234, 144, 1));
-                    jLabel1.setText("NO EXISTE VALIDACION PARA LA CATEGORIA");
-                    break;
-                case 2:
-                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
-                    jLabel1.setForeground(new Color(67, 67, 255));
-                    jLabel1.setText("ULTIMA ENTRADA VALIDA " + dao.obtenerUltimoIngreso(codigo));
-                    break;
-                case 3:
-                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
-                    jLabel1.setForeground(new Color(67, 67, 255));
-                    jLabel1.setText("NO PUEDE INGRESAR POR ESTA ENTRADA");
-                    break;
-                case 4:
-                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
-                    jLabel1.setForeground(new Color(191, 61, 39));
-                    jLabel1.setText("ENTRADA NO VALIDA PARA ESTE EVENTO");
-                    break;
-                case 5:
-                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
-                    jLabel1.setForeground(new Color(191, 61, 39));
-                    jLabel1.setText("CODIGO NO VALIDO");
-                    break;
+        int p = dao.validarTarjeta(codigo, torniquete_id, String.valueOf(even_id));
+        if (p != 4) {
+            if (x.equals("false")) {
+                int resultado = dao.validarTarjeta(codigo, torniquete_id, String.valueOf(even_id));
+                switch (resultado) {
+                    case 0:
+                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
+                        jLabel1.setForeground(new Color(44, 139, 25));
+                        jLabel1.setText("BIENVENIDO " + nombre);
+                        break;
+                    case 1:
+                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning1.png")));
+                        jLabel1.setForeground(new Color(234, 144, 1));
+                        jLabel1.setText("NO EXISTE VALIDACION PARA LA CATEGORIA");
+                        break;
+                    case 2:
+                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
+                        jLabel1.setForeground(new Color(67, 67, 255));
+                        jLabel1.setText("ULTIMA ENTRADA VALIDA " + dao.obtenerUltimoIngreso(codigo));
+                        break;
+                    case 3:
+                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
+                        jLabel1.setForeground(new Color(67, 67, 255));
+                        jLabel1.setText("NO PUEDE INGRESAR POR ESTA ENTRADA");
+                        break;
+                    case 4:
+                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
+                        jLabel1.setForeground(new Color(191, 61, 39));
+                        jLabel1.setText("ENTRADA NO VALIDA PARA ESTE EVENTO");
+                        break;
+                    case 5:
+                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
+                        jLabel1.setForeground(new Color(191, 61, 39));
+                        jLabel1.setText("CODIGO NO VALIDO");
+                        break;
 //                    case 1:
 //                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
 //                        jLabel1.setForeground(new Color(191, 61, 39));
 //                        jLabel1.setText("LA ENTRADA YA HA SIDO USADA");
 //                        break;
                 }
-        } else {
-            if (nombre != null || !nombre.equals("")) {
-                lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
-                jLabel1.setForeground(new Color(44, 139, 25));
-                jLabel1.setText(nombre + " SU ENTRADA YA SE REGISTRO");
+            } else {
+                if (nombre != null || !nombre.equals("")) {
+                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning1.png")));
+                    jLabel1.setForeground(new Color(234, 144, 1));
+                    jLabel1.setText(nombre + " SU ENTRADA YA SE REGISTRO");
+                }
+
             }
+        } else {
+            lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
+            jLabel1.setForeground(new Color(191, 61, 39));
+            jLabel1.setText("ENTRADA NO VALIDA PARA ESTE EVENTO");
+
         }
         txtCodigo.setText(null);
         txtCodigo.requestFocus();
