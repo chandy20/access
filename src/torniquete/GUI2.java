@@ -12,12 +12,15 @@ package torniquete;
 import java.awt.Color;
 import java.sql.Connection;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 public class GUI2 extends javax.swing.JFrame {
 
     int sw;
-    int even_id;
+    int even_id, subeven_id, aforo;
+    boolean entrada = true;
     ArrayList lisids = new ArrayList();
+    ArrayList lisSubids = new ArrayList();
     TorniqueteDAO control = new TorniqueteDAO();
 
     /*
@@ -25,6 +28,8 @@ public class GUI2 extends javax.swing.JFrame {
      */
     public GUI2() {
         sw = 0;
+        subeven_id = 0;
+        aforo = -2;// entrada general
         initComponents();
         this.setExtendedState(this.MAXIMIZED_BOTH);
         createObjects();
@@ -61,6 +66,7 @@ public class GUI2 extends javax.swing.JFrame {
 
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jComboBox1 = new javax.swing.JComboBox();
+        jComboBox2 = new javax.swing.JComboBox();
         jButton1 = new javax.swing.JButton();
         txtCodigo = new java.awt.TextField();
         jLabel3 = new javax.swing.JLabel();
@@ -69,26 +75,38 @@ public class GUI2 extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         lblLogo = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-		setUndecorated(true);
         setBackground(new java.awt.Color(255, 255, 255));
-        setPreferredSize(new java.awt.Dimension(1280, 800));
         setResizable(false);
 
         jLayeredPane1.setBackground(new java.awt.Color(255, 255, 255));
         jLayeredPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jLayeredPane1.setPreferredSize(new java.awt.Dimension(1280, 800));
 
+        jComboBox1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jComboBox1MouseClicked(evt);
+            }
+        });
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
             }
         });
+        jComboBox1.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jComboBox1PropertyChange(evt);
+            }
+        });
+
+        jComboBox2.setBackground(new java.awt.Color(153, 153, 153));
 
         jButton1.setText("SELECCIONAR");
         jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -158,6 +176,13 @@ public class GUI2 extends javax.swing.JFrame {
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setText("ACCESS CONTROL");
 
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel9MouseClicked(evt);
+            }
+        });
+
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/minimize.png"))); // NOI18N
         jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -166,6 +191,10 @@ public class GUI2 extends javax.swing.JFrame {
         });
 
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 0, 153));
+        jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         jDesktopPane1.setMaximumSize(new java.awt.Dimension(1200, 800));
         jDesktopPane1.setPreferredSize(new java.awt.Dimension(1280, 800));
@@ -193,18 +222,38 @@ public class GUI2 extends javax.swing.JFrame {
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                            .addGap(26, 26, 26)
+                            .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1150, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jLayeredPane1Layout.createSequentialGroup()
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addGap(254, 254, 254)
+                        .addComponent(jButton1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
                         .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(43, 43, Short.MAX_VALUE)
                         .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(35, 35, 35))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton1)
-                        .addGap(105, 105, 105)))
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(35, 35, 35)
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jLayeredPane1Layout.createSequentialGroup()
                         .addGap(656, 656, 656)
@@ -215,21 +264,12 @@ public class GUI2 extends javax.swing.JFrame {
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(6, 6, 6))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 738, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())))
-            .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -246,12 +286,19 @@ public class GUI2 extends javax.swing.JFrame {
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(8, 8, 8)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 206, Short.MAX_VALUE)
+                .addGap(3, 3, 3)
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1))
+                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
                 .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(108, 108, 108)
+                .addGap(71, 71, 71)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -261,6 +308,7 @@ public class GUI2 extends javax.swing.JFrame {
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
         jLayeredPane1.setLayer(jComboBox1, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jComboBox2, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jButton1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(txtCodigo, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jLabel3, javax.swing.JLayeredPane.DEFAULT_LAYER);
@@ -269,8 +317,10 @@ public class GUI2 extends javax.swing.JFrame {
         jLayeredPane1.setLayer(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jLabel7, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(lblLogo, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel10, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jDesktopPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -318,10 +368,31 @@ public class GUI2 extends javax.swing.JFrame {
     private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
         // TODO add your handling code here:
         if (lisids != null) {
+            jLabel9.setText("ENTRADA");
             even_id = (int) lisids.get(jComboBox1.getSelectedIndex());
+            if (jComboBox2.getSelectedIndex() != 0) {
+                subeven_id = (int) lisSubids.get(jComboBox2.getSelectedIndex() - 1);
+
+                aforo = (int) control.consultarAforo(subeven_id);
+                if (aforo != -1) {
+                    if (aforo != 0) {
+                        jLabel9.setEnabled(true);
+                    } else {
+                        jLabel9.setEnabled(false);
+                    }
+                } else {
+                    System.out.println("ocurrio un error en la consulta");
+                }
+            } else {
+                subeven_id = 0;
+                aforo = -2;
+                jLabel9.setEnabled(false);
+            }
             jLabel4.setText((String) jComboBox1.getSelectedItem());
+            jLabel10.setText((String) jComboBox2.getSelectedItem());
             jLabel3.setVisible(false);
             jComboBox1.setVisible(false);
+            jComboBox2.setVisible(false);
             jButton1.setVisible(false);
             txtCodigo.setVisible(true);
             txtCodigo.requestFocus();
@@ -337,12 +408,16 @@ public class GUI2 extends javax.swing.JFrame {
         // TODO add your handling code here:
         jLabel3.setVisible(true);
         jComboBox1.setVisible(true);
+        jComboBox2.setVisible(true);
         jButton1.setVisible(true);
         txtCodigo.setVisible(false);
         lblLogo.setVisible(false);
         jLabel4.setText("");
+        jLabel10.setText("");
         jLabel1.setForeground(new Color(0, 0, 153));
         jLabel1.setText("BIENVENIDO");
+        jLabel9.setText("");
+        jLabel9.setEnabled(false);
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
@@ -362,69 +437,163 @@ public class GUI2 extends javax.swing.JFrame {
 
         //restar ultimo digito de la cadena
         codigo = codigo.substring(0, 12);
-        System.out.println("cadena = " + codigo);
-        String nombre = dao.obtenerPersona(codigo, String.valueOf(even_id));
-        String x = dao.consultarUltimoRegistro(codigo, torniquete_id);
-        int p = dao.validarTarjeta(codigo, torniquete_id, String.valueOf(even_id));
-        if (p != 4) {
-            if (x.equals("false")) {
-                int resultado = dao.validarTarjeta(codigo, torniquete_id, String.valueOf(even_id));
-                switch (resultado) {
-                    case 0:
-                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
-                        jLabel1.setForeground(new Color(44, 139, 25));
-                        jLabel1.setText("BIENVENIDO " + nombre);
-                        break;
-                    case 1:
-                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning1.png")));
-                        jLabel1.setForeground(new Color(234, 144, 1));
-                        jLabel1.setText("NO EXISTE VALIDACION PARA LA CATEGORIA");
-                        break;
-                    case 2:
-                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
-                        jLabel1.setForeground(new Color(67, 67, 255));
-                        jLabel1.setText("ULTIMA ENTRADA VALIDA " + dao.obtenerUltimoIngreso(codigo));
-                        break;
-                    case 3:
-                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
-                        jLabel1.setForeground(new Color(67, 67, 255));
-                        jLabel1.setText("NO PUEDE INGRESAR POR ESTA ENTRADA");
-                        break;
-                    case 4:
-                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
-                        jLabel1.setForeground(new Color(191, 61, 39));
-                        jLabel1.setText("ENTRADA NO VALIDA PARA ESTE EVENTO");
-                        break;
-                    case 5:
-                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
-                        jLabel1.setForeground(new Color(191, 61, 39));
-                        jLabel1.setText("CODIGO NO VALIDO");
-                        break;
+
+        if (aforo == -2) {
+            System.out.println("cadena = " + codigo);
+            String nombre = dao.obtenerPersona(codigo, String.valueOf(even_id));
+            String x = dao.consultarUltimoRegistro(codigo, torniquete_id);
+            int resultado = dao.validarTarjeta(codigo, torniquete_id, String.valueOf(even_id));
+            if (resultado != 4) {
+                if (x.equals("false")) {
+                    switch (resultado) {
+                        case 0:
+                            lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
+                            jLabel1.setForeground(new Color(44, 139, 25));
+                            jLabel1.setText("BIENVENIDO " + nombre);
+                            break;
+                        case 1:
+                            lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning1.png")));
+                            jLabel1.setForeground(new Color(234, 144, 1));
+                            jLabel1.setText("NO EXISTE VALIDACION PARA LA CATEGORIA");
+                            break;
+                        case 2:
+                            lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
+                            jLabel1.setForeground(new Color(67, 67, 255));
+                            jLabel1.setText("ULTIMA ENTRADA VALIDA " + dao.obtenerUltimoIngreso(codigo));
+                            break;
+                        case 3:
+                            lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
+                            jLabel1.setForeground(new Color(67, 67, 255));
+                            jLabel1.setText("NO PUEDE INGRESAR POR ESTA ENTRADA");
+                            break;
+                        case 5:
+                            lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
+                            jLabel1.setForeground(new Color(191, 61, 39));
+                            jLabel1.setText("CODIGO NO VALIDO");
+                            break;
 //                    case 1:
 //                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
 //                        jLabel1.setForeground(new Color(191, 61, 39));
 //                        jLabel1.setText("LA ENTRADA YA HA SIDO USADA");
 //                        break;
+                    }
+                } else {
+                    if (nombre != null || !nombre.equals("")) {
+                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning1.png")));
+                        jLabel1.setForeground(new Color(234, 144, 1));
+                        jLabel1.setText(nombre + " SU ENTRADA YA SE REGISTRO");
+                    }
                 }
             } else {
-                if (nombre != null || !nombre.equals("")) {
-                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning1.png")));
-                    jLabel1.setForeground(new Color(234, 144, 1));
-                    jLabel1.setText(nombre + " SU ENTRADA YA SE REGISTRO");
-                }
+                lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
+                jLabel1.setForeground(new Color(191, 61, 39));
+                jLabel1.setText("ENTRADA NO VALIDA PARA ESTE EVENTO");
 
             }
         } else {
-            lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
-            jLabel1.setForeground(new Color(191, 61, 39));
-            jLabel1.setText("ENTRADA NO VALIDA PARA ESTE EVENTO");
-
+            int pers_id = control.consultarIdPersona(codigo, even_id);
+            if (pers_id > 0) {
+                String nombre = dao.obtenerPersona(codigo, String.valueOf(even_id));
+                //consultar si ya registro entrada
+                aforo = (int) control.consultarAforo(subeven_id);
+                if (aforo == 0) {
+                    // si aforo es cero entrada libre
+                    control.insertEntrada(subeven_id, pers_id);
+                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
+                    jLabel1.setForeground(new Color(44, 139, 25));
+                    jLabel1.setText("BIENVENIDO " + nombre);
+                } else {
+                    //si el aforo es mayor q cero entrada limitada
+                    int ingreso = control.obtenerIngreso(pers_id, subeven_id);
+                    System.out.println("ingreso entrada" + ingreso);
+                    if (entrada == true) {//marcar entradas                        
+                        if (ingreso <= 0) {
+                            //preguntar por la variable de control
+                            int control_aforo = (int) control.obtenerControlAforo(subeven_id);
+                            //validar si hay cupo
+                            if (control_aforo < aforo) {
+                                control.insertEntrada(subeven_id, pers_id);
+                                lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
+                                jLabel1.setForeground(new Color(44, 139, 25));
+                                jLabel1.setText("BIENVENIDO " + nombre);
+                                int alerta_aforo = (int) control.consultarAlertaAforo(subeven_id);
+                                if (control_aforo >= alerta_aforo) {
+                                    JOptionPane.showMessageDialog(null, "QUEDAN " + (aforo - control_aforo) + " CUPOS");
+                                }
+                            } else {
+                                lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning1.png")));
+                                jLabel1.setForeground(new Color(234, 144, 1));
+                                jLabel1.setText("LIMITE DEL AFORO HA SIDO ALCANZADO");
+                            }
+                        } else {
+                            lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
+                            jLabel1.setForeground(new Color(67, 67, 255));
+                            jLabel1.setText("YA SE REGISTRO LA ENTRADA, MARQUE LA SALIDA");
+                        }//fin de marcar entradas
+                    } else {//inicio de marcar salida
+                        if (ingreso > 0) {
+                            control.insertSalida(ingreso, subeven_id);
+                            lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
+                            jLabel1.setForeground(new Color(44, 139, 25));
+                            jLabel1.setText("GRACIAS POR SU ASISTENCIA " + nombre);
+                        } else {
+                            lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
+                            jLabel1.setForeground(new Color(67, 67, 255));
+                            jLabel1.setText("NO EXISTE ENTRADA REGISTRADA");
+                        }//fin de marcar salida
+                    }
+                }
+            } else {
+                lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
+                jLabel1.setForeground(new Color(191, 61, 39));
+                jLabel1.setText("ENTRADA NO VALIDA PARA ESTE EVENTO");
+            }
         }
         txtCodigo.setText(null);
         txtCodigo.requestFocus();
         System.out.println("sw " + 1);
-
     }//GEN-LAST:event_txtCodigoActionPerformed
+
+    private void jComboBox1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MouseClicked
+        jComboBox2.removeAllItems();
+        if (lisids != null) {
+            even_id = (int) lisids.get(jComboBox1.getSelectedIndex());
+            jComboBox2.addItem("ENTRADA GENERAL");
+            ArrayList Subeventos = (ArrayList) control.consultarSubEventos(even_id);
+            if (Subeventos != null) {
+                for (int i = 1; i < Subeventos.size(); i = i + 2) {
+                    jComboBox2.addItem(Subeventos.get(i));
+                }
+                for (int i = 0; i < Subeventos.size(); i = i + 2) {
+                    lisSubids.add(Subeventos.get(i));
+                }
+            } else {
+                lisSubids = null;
+            }
+        } else {
+            lisids = null;
+            jLabel1.setText("NO EXISTEN EVENTOS ACTIVOS");
+        }
+    }//GEN-LAST:event_jComboBox1MouseClicked
+
+    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
+
+        if (aforo > 0) {
+            if (entrada == true) {
+                jLabel9.setText("SALIDA");
+                entrada = false;
+            } else {
+                jLabel9.setText("ENTRADA");
+                entrada = true;
+            }
+            System.out.println(entrada);
+        }
+    }//GEN-LAST:event_jLabel9MouseClicked
+
+    private void jComboBox1PropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jComboBox1PropertyChange
+
+
+    }//GEN-LAST:event_jComboBox1PropertyChange
 
     /**
      * @param args the command line arguments
@@ -464,8 +633,10 @@ public class GUI2 extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboBox2;
     private javax.swing.JDesktopPane jDesktopPane1;
     public javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -473,6 +644,7 @@ public class GUI2 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JLayeredPane jLayeredPane1;
     public javax.swing.JLabel lblLogo;
     public java.awt.TextField txtCodigo;
