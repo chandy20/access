@@ -53,6 +53,12 @@ public class GUI2 extends javax.swing.JFrame {
             lisids = null;
             jLabel1.setText("NO EXISTEN EVENTOS ACTIVOS");
         }
+        jLabel11.setVisible(false);
+        jLabel12.setVisible(false);
+        jLabel13.setVisible(false);
+        jLabel14.setVisible(false);
+        jLabel15.setVisible(false);
+        jLabel16.setVisible(false);
     }
 
     /**
@@ -78,7 +84,13 @@ public class GUI2 extends javax.swing.JFrame {
         jLabel9 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         lblLogo = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jLabel2 = new javax.swing.JLabel();
 
@@ -192,9 +204,33 @@ public class GUI2 extends javax.swing.JFrame {
 
         lblLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(0, 0, 153));
+        jLabel11.setText("AFORO");
+
         jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(0, 0, 153));
         jLabel10.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(0, 0, 153));
+        jLabel14.setText("00");
+
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(44, 139, 25));
+        jLabel12.setText("INGRESOS");
+
+        jLabel15.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(44, 139, 25));
+        jLabel15.setText("00");
+
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(191, 61, 39));
+        jLabel13.setText("DISPONIBLES");
+
+        jLabel16.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(191, 61, 39));
+        jLabel16.setText("00");
 
         jDesktopPane1.setMaximumSize(new java.awt.Dimension(1200, 800));
         jDesktopPane1.setPreferredSize(new java.awt.Dimension(1280, 800));
@@ -222,15 +258,8 @@ public class GUI2 extends javax.swing.JFrame {
         jLayeredPane1Layout.setHorizontalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                            .addGap(26, 26, 26)
-                            .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(jLayeredPane1Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1150, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(1006, 1006, 1006)
+                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
                 .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -270,6 +299,27 @@ public class GUI2 extends javax.swing.JFrame {
                                 .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 738, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap())))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jLayeredPane1Layout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jLayeredPane1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel11))))
+                .addGap(114, 114, 114))
             .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jDesktopPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -293,9 +343,25 @@ public class GUI2 extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jButton1))
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 173, Short.MAX_VALUE)
-                .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(71, 71, 71)
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(71, 71, 71))
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(jLabel11)
+                        .addGap(45, 45, 45)
+                        .addComponent(jLabel14)
+                        .addGap(45, 45, 45)
+                        .addComponent(jLabel12)
+                        .addGap(28, 28, 28)
+                        .addComponent(jLabel15)
+                        .addGap(57, 57, 57)
+                        .addComponent(jLabel13)
+                        .addGap(46, 46, 46)
+                        .addComponent(jLabel16)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)))
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -320,7 +386,13 @@ public class GUI2 extends javax.swing.JFrame {
         jLayeredPane1.setLayer(jLabel9, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jLabel8, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(lblLogo, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel11, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jLabel10, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel14, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel12, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel15, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel13, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(jLabel16, javax.swing.JLayeredPane.DEFAULT_LAYER);
         jLayeredPane1.setLayer(jDesktopPane1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -376,7 +448,17 @@ public class GUI2 extends javax.swing.JFrame {
                 aforo = (int) control.consultarAforo(subeven_id);
                 if (aforo != -1) {
                     if (aforo != 0) {
+                        jLabel11.setVisible(true);
+                        jLabel12.setVisible(true);
+                        jLabel13.setVisible(true);
+                        jLabel14.setVisible(true);
+                        jLabel15.setVisible(true);
+                        jLabel16.setVisible(true);
                         jLabel9.setEnabled(true);
+                        //ACTUALIZAR CONTADORES 
+                        jLabel14.setText("" + (int) control.consultarAforo(subeven_id));
+                        jLabel15.setText("" + (int) control.obtenerControlAforo(subeven_id));
+                        jLabel16.setText("" + ((int) control.consultarAforo(subeven_id) - (int) control.obtenerControlAforo(subeven_id)));
                     } else {
                         jLabel9.setEnabled(false);
                     }
@@ -396,6 +478,7 @@ public class GUI2 extends javax.swing.JFrame {
             jButton1.setVisible(false);
             txtCodigo.setVisible(true);
             txtCodigo.requestFocus();
+
         }
     }//GEN-LAST:event_jButton1MouseClicked
 
@@ -418,6 +501,12 @@ public class GUI2 extends javax.swing.JFrame {
         jLabel1.setText("BIENVENIDO");
         jLabel9.setText("");
         jLabel9.setEnabled(false);
+        jLabel11.setVisible(false);
+        jLabel12.setVisible(false);
+        jLabel13.setVisible(false);
+        jLabel14.setVisible(false);
+        jLabel15.setVisible(false);
+        jLabel16.setVisible(false);
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
@@ -493,55 +582,162 @@ public class GUI2 extends javax.swing.JFrame {
         } else {
             int pers_id = control.consultarIdPersona(codigo, even_id);
             if (pers_id > 0) {
-                String nombre = dao.obtenerPersona(codigo, String.valueOf(even_id));
-                //consultar si ya registro entrada
-                aforo = (int) control.consultarAforo(subeven_id);
-                if (aforo == 0) {
-                    // si aforo es cero entrada libre
-                    control.insertEntrada(subeven_id, pers_id);
-                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
-                    jLabel1.setForeground(new Color(44, 139, 25));
-                    jLabel1.setText("BIENVENIDO " + nombre);
-                } else {
-                    //si el aforo es mayor q cero entrada limitada
-                    int ingreso = control.obtenerIngreso(pers_id, subeven_id);
-                    System.out.println("ingreso entrada" + ingreso);
-                    if (entrada == true) {//marcar entradas                        
-                        if (ingreso <= 0) {
-                            //preguntar por la variable de control
-                            int control_aforo = (int) control.obtenerControlAforo(subeven_id);
-                            //validar si hay cupo
-                            if (control_aforo < aforo) {
-                                control.insertEntrada(subeven_id, pers_id);
-                                lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
-                                jLabel1.setForeground(new Color(44, 139, 25));
-                                jLabel1.setText("BIENVENIDO " + nombre);
-                                int alerta_aforo = (int) control.consultarAlertaAforo(subeven_id);
-                                if (control_aforo >= alerta_aforo) {
-                                    JOptionPane.showMessageDialog(null, "QUEDAN " + (aforo - control_aforo) + " CUPOS");
-                                }
-                            } else {
-                                lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning1.png")));
-                                jLabel1.setForeground(new Color(234, 144, 1));
-                                jLabel1.setText("LIMITE DEL AFORO HA SIDO ALCANZADO");
+                //consultar reingreso
+                int reingreso = control.consultarReingresos(subeven_id);
+                System.out.println("reingreso " + reingreso);
+                //consultar cupo
+                if (reingreso > 0) { //reingreso habilitado
+
+                    String nombre = dao.obtenerPersona(codigo, String.valueOf(even_id));
+                    //consultar aforo
+                    aforo = (int) control.consultarAforo(subeven_id);
+                    if (aforo == 0) {
+                        // si aforo es cero entrada libre pero con reingreso                        
+                        control.insertEntrada(subeven_id, pers_id);
+                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
+                        jLabel1.setForeground(new Color(44, 139, 25));
+                        jLabel1.setText("BIENVENIDO " + nombre);
+                    } else {
+                        int cupo = control.verificarCupoR(codigo);
+                        if (cupo > 0) {
+                            //si el aforo es mayor q cero (entrada limitada)
+                            int ingreso = control.obtenerIngreso(pers_id, subeven_id);
+                            System.out.println("ingreso entrada" + ingreso);
+                            if (entrada == true) {//marcar entradas                        
+                                if (ingreso <= 0) {
+                                    //preguntar por la variable de control
+                                    int control_aforo = (int) control.obtenerControlAforo(subeven_id);
+                                    //validar si hay cupo
+                                    if (control_aforo <= aforo) {
+                                        control.insertEntrada(subeven_id, pers_id);
+                                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
+                                        jLabel1.setForeground(new Color(44, 139, 25));
+                                        jLabel1.setText("BIENVENIDO " + nombre);
+                                        //actualiza el estado activo de la persona
+                                        control.actualizarCupo(cupo, 1);
+                                        //ACTUALIZAR CONTADORES 
+                                        jLabel14.setText("" + (int) control.consultarAforo(subeven_id));
+                                        jLabel15.setText("" + (int) control.obtenerControlAforo(subeven_id));
+                                        jLabel16.setText("" + ((int) control.consultarAforo(subeven_id) - (int) control.obtenerControlAforo(subeven_id)));
+                                        //consulta el control_ aforo actual
+                                        control_aforo = (int) control.obtenerControlAforo(subeven_id);
+                                        int alerta_aforo = (int) control.consultarAlertaAforo(subeven_id);
+                                        if (control_aforo >= alerta_aforo) {
+                                            JOptionPane.showMessageDialog(null, "QUEDAN " + (aforo - control_aforo) + " CUPOS");
+                                        }
+                                    } else {
+                                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning1.png")));
+                                        jLabel1.setForeground(new Color(234, 144, 1));
+                                        jLabel1.setText("LIMITE DEL AFORO HA SIDO ALCANZADO");
+                                    }
+                                } else {
+                                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
+                                    jLabel1.setForeground(new Color(67, 67, 255));
+                                    jLabel1.setText("YA SE REGISTRO LA ENTRADA, MARQUE LA SALIDA");
+                                }//fin de marcar entradas
+                            } else {//inicio de marcar salida
+                                if (ingreso > 0) {
+                                    control.insertSalida(ingreso, subeven_id);
+                                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
+                                    jLabel1.setForeground(new Color(44, 139, 25));
+                                    jLabel1.setText("GRACIAS POR SU ASISTENCIA " + nombre);
+                                    //ACTUALIZAR CONTADORES 
+                                    jLabel14.setText("" + (int) control.consultarAforo(subeven_id));
+                                    jLabel15.setText("" + (int) control.obtenerControlAforo(subeven_id));
+                                    jLabel16.setText("" + ((int) control.consultarAforo(subeven_id) - (int) control.obtenerControlAforo(subeven_id)));
+                                    //actualizo el campo activo de cupos_activities
+                                    control.actualizarCupo(cupo, 0);
+
+                                } else {
+                                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
+                                    jLabel1.setForeground(new Color(67, 67, 255));
+                                    jLabel1.setText("NO EXISTE ENTRADA REGISTRADA");
+                                }//fin de marcar salida
                             }
                         } else {
-                            lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
-                            jLabel1.setForeground(new Color(67, 67, 255));
-                            jLabel1.setText("YA SE REGISTRO LA ENTRADA, MARQUE LA SALIDA");
-                        }//fin de marcar entradas
-                    } else {//inicio de marcar salida
-                        if (ingreso > 0) {
-                            control.insertSalida(ingreso, subeven_id);
+                            lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning1.png")));
+                            jLabel1.setForeground(new Color(234, 144, 1));
+                            jLabel1.setText("NO VALIDO PARA LA ACTIVIDAD");
+                        }
+                    }
+                } else {//reingreso inhabilitado
+
+                    String nombre = dao.obtenerPersona(codigo, String.valueOf(even_id));
+                    //consultar aforo
+                    aforo = (int) control.consultarAforo(subeven_id);
+                    if (aforo == 0) {
+                        // si aforo es cero entrada libre pero reingreso inhabilitado
+                        int ingreso = control.obtenerIngreso(pers_id, subeven_id);
+                        if (ingreso <= 0) {
+                            control.insertEntrada(subeven_id, pers_id);
                             lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
                             jLabel1.setForeground(new Color(44, 139, 25));
-                            jLabel1.setText("GRACIAS POR SU ASISTENCIA " + nombre);
+                            jLabel1.setText("BIENVENIDO " + nombre);
                         } else {
-                            lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
-                            jLabel1.setForeground(new Color(67, 67, 255));
-                            jLabel1.setText("NO EXISTE ENTRADA REGISTRADA");
-                        }//fin de marcar salida
+                            lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning1.png")));
+                            jLabel1.setForeground(new Color(234, 144, 1));
+                            jLabel1.setText("YA SE REGISTRO, ENTRADA NO VALIDA");
+                        }
+                    } else {
+                        int cupo = control.verificarCupo(codigo);
+                        if (cupo > 0) {
+                            //si el aforo es mayor q cero (entrada limitada)
+                            int ingreso = control.obtenerIngreso(pers_id, subeven_id);
+                            System.out.println("ingreso entrada" + ingreso);
+                            if (entrada == true) {//marcar entradas                        
+                                if (ingreso <= 0) {
+                                    //preguntar por la variable de control
+                                    int control_aforo = (int) control.obtenerControlAforo(subeven_id);
+                                    //validar si hay cupo
+                                    if (control_aforo <= aforo) {
+                                        control.insertEntrada(subeven_id, pers_id);
+                                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
+                                        jLabel1.setForeground(new Color(44, 139, 25));
+                                        jLabel1.setText("BIENVENIDO " + nombre);
+                                        //ACTUALIZAR CONTADORES 
+                                        jLabel14.setText("" + (int) control.consultarAforo(subeven_id));
+                                        jLabel15.setText("" + (int) control.obtenerControlAforo(subeven_id));
+                                        jLabel16.setText("" + ((int) control.consultarAforo(subeven_id) - (int) control.obtenerControlAforo(subeven_id)));
+                                        int alerta_aforo = (int) control.consultarAlertaAforo(subeven_id);
+                                        if (control_aforo >= alerta_aforo) {
+                                            JOptionPane.showMessageDialog(null, "QUEDAN " + (aforo - control_aforo) + " CUPOS");
+                                        }
+                                    } else {
+                                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning1.png")));
+                                        jLabel1.setForeground(new Color(234, 144, 1));
+                                        jLabel1.setText("LIMITE DEL AFORO HA SIDO ALCANZADO");
+                                    }
+                                } else {
+                                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
+                                    jLabel1.setForeground(new Color(67, 67, 255));
+                                    jLabel1.setText("YA SE REGISTRO LA ENTRADA, MARQUE LA SALIDA");
+                                }//fin de marcar entradas
+                            } else {//inicio de marcar salida
+                                if (ingreso > 0) {
+                                    control.insertSalida(ingreso, subeven_id);
+                                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
+                                    jLabel1.setForeground(new Color(44, 139, 25));
+                                    jLabel1.setText("GRACIAS POR SU ASISTENCIA " + nombre);
+                                    //ACTUALIZAR CONTADORES 
+                                    jLabel14.setText("" + (int) control.consultarAforo(subeven_id));
+                                    jLabel15.setText("" + (int) control.obtenerControlAforo(subeven_id));
+                                    jLabel16.setText("" + ((int) control.consultarAforo(subeven_id) - (int) control.obtenerControlAforo(subeven_id)));
+                                    //actualizo el campo activo de cupos_activities
+                                    control.actualizarCupo(cupo, 0);
+
+                                } else {
+                                    lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning2.png")));
+                                    jLabel1.setForeground(new Color(67, 67, 255));
+                                    jLabel1.setText("NO EXISTE ENTRADA REGISTRADA");
+                                }//fin de marcar salida
+                            }
+                        } else {
+                            lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning1.png")));
+                            jLabel1.setForeground(new Color(234, 144, 1));
+                            jLabel1.setText("NO VALIDO PARA LA ACTIVIDAD");
+                        }
                     }
+
                 }
             } else {
                 lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/bad.png")));
@@ -637,6 +833,12 @@ public class GUI2 extends javax.swing.JFrame {
     private javax.swing.JDesktopPane jDesktopPane1;
     public javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
