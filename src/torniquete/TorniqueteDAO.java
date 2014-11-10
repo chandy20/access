@@ -58,9 +58,11 @@ public class TorniqueteDAO {
         Date date = new Date();
         SimpleDateFormat Formateador = new SimpleDateFormat("yyyy-MM-dd");
         String Fecha = Formateador.format(date);
+        String sql = "SELECT id, even_nombre FROM events WHERE even_fechInicio <= '" + Fecha + "' AND even_fechFinal >= '" + Fecha + "'";
         try {
             Statement statement = connection.createStatement();
-            ResultSet rs = statement.executeQuery("SELECT id, even_nombre FROM events WHERE even_fechInicio <= '" + Fecha + "' AND even_fechFinal >= '" + Fecha + "'");
+            ResultSet rs = statement.executeQuery(sql);
+            System.out.println("SQL "+ sql);
             if (rs != null) {
                 while (rs.next()) {
                     //ahora tomo los datos de la consulta
@@ -73,6 +75,7 @@ public class TorniqueteDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("si error");
         }
         return listado;
     }
@@ -423,14 +426,14 @@ public class TorniqueteDAO {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         System.out.println("Fecha Sistema: " + dateFormat.format(date));
-        String sql = "select reingreso from activities where  id =" + subeven + "";
+        String sql = "select reingresos from activities where  id =" + subeven + "";
         System.out.println("Sql: " + sql);
         try {
             Statement statement = connection.createStatement();
             ResultSet rs = statement.executeQuery(sql);
             //Si ya hay un registro en la base de datos, tomo los ingresos y valido si no ha excedido el limite
             if (rs.next()) {
-                aforo = rs.getInt("reingreso");
+                aforo = rs.getInt("reingresos");
             }
             rs.close();
         } catch (SQLException e) {

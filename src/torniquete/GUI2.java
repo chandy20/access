@@ -460,6 +460,9 @@ public class GUI2 extends javax.swing.JFrame {
                         jLabel15.setText("" + (int) control.obtenerControlAforo(subeven_id));
                         jLabel16.setText("" + ((int) control.consultarAforo(subeven_id) - (int) control.obtenerControlAforo(subeven_id)));
                     } else {
+                        jLabel12.setVisible(true);
+                        jLabel15.setVisible(true);
+                        jLabel15.setText("" + (int) control.obtenerControlAforo(subeven_id));
                         jLabel9.setEnabled(false);
                     }
                 } else {
@@ -593,23 +596,31 @@ public class GUI2 extends javax.swing.JFrame {
                     aforo = (int) control.consultarAforo(subeven_id);
                     if (aforo == 0) {
                         // si aforo es cero entrada libre pero con reingreso                        
-                        control.insertEntrada(subeven_id, pers_id);
-                        lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
-                        jLabel1.setForeground(new Color(44, 139, 25));
-                        jLabel1.setText("BIENVENIDO " + nombre);
+                        if (control.obtenerIngreso(pers_id, subeven_id) <= 0) {
+                            control.insertEntrada(subeven_id, pers_id);
+                            lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
+                            jLabel1.setForeground(new Color(44, 139, 25));
+                            jLabel1.setText("BIENVENIDO " + nombre);
+                            jLabel15.setText("" + (int) control.obtenerControlAforo(subeven_id));
+                        } else {
+                            lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
+                            jLabel1.setForeground(new Color(44, 139, 25));
+                            jLabel1.setText("BIENVENIDO " + nombre+ ", REINGRESO");
+                            jLabel15.setText("" + (int) control.obtenerControlAforo(subeven_id));
+                        }
                     } else {
 
                         int cupo = control.verificarCupo(codigo);
                         if (cupo > 0) {
                             //si el aforo es mayor q cero (entrada limitada)
                             int ingreso = control.obtenerIngreso(pers_id, subeven_id);
-                            System.out.println("ingreso entrada" + ingreso);
+                            System.out.println("ingreso entrada reingreso habilidato" + ingreso);
                             if (entrada == true) {//marcar entradas                        
                                 if (ingreso <= 0) {
                                     //preguntar por la variable de control
                                     int control_aforo = (int) control.obtenerControlAforo(subeven_id);
                                     //validar si hay cupo
-                                    if (control_aforo <= aforo) {
+                                    if (control_aforo < aforo) {
                                         control.insertEntrada(subeven_id, pers_id);
                                         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
                                         jLabel1.setForeground(new Color(44, 139, 25));
@@ -735,10 +746,12 @@ public class GUI2 extends javax.swing.JFrame {
                             lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
                             jLabel1.setForeground(new Color(44, 139, 25));
                             jLabel1.setText("BIENVENIDO " + nombre);
+                            jLabel15.setText("" + (int) control.obtenerControlAforo(subeven_id));
                         } else {
                             lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/warning1.png")));
                             jLabel1.setForeground(new Color(234, 144, 1));
                             jLabel1.setText("YA SE REGISTRO, ENTRADA NO VALIDA");
+                            jLabel15.setText("" + (int) control.obtenerControlAforo(subeven_id));
                         }
                     } else {
                         int cupo = control.verificarCupo(codigo);
@@ -808,7 +821,7 @@ public class GUI2 extends javax.swing.JFrame {
                                         //preguntar por la variable de control
                                         int control_aforo = (int) control.obtenerControlAforo(subeven_id);
                                         //validar si hay cupo
-                                        if (control_aforo <= aforo) {
+                                        if (control_aforo < aforo) {
                                             control.insertEntrada(subeven_id, pers_id);
                                             lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagenes/good.png")));
                                             jLabel1.setForeground(new Color(44, 139, 25));
@@ -877,7 +890,7 @@ public class GUI2 extends javax.swing.JFrame {
         jComboBox2.removeAllItems();
         if (lisids != null) {
             even_id = (int) lisids.get(jComboBox1.getSelectedIndex());
-            jComboBox2.addItem("ENTRADA GENERAL");
+            jComboBox2.addItem("ACCESO PRINCIPAL");
             ArrayList Subeventos = (ArrayList) control.consultarSubEventos(even_id);
             if (Subeventos != null) {
                 for (int i = 1; i < Subeventos.size(); i = i + 2) {
