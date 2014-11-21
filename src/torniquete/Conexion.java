@@ -15,13 +15,13 @@ public class Conexion {
 
     public static Connection getConnection() {
         try {
-            String uname = "fabio";
-            String pwd = "totem123";
-            String servidor = "jdbc:mysql://192.168.10.1/tiquetes";
+//            String uname = "usuario";
+//            String pwd = "clave";
+//            String servidor = "jdbc:mysql://192.168.10.1/tiquetes";
 
-//            String uname = "root";
-//            String pwd = "";
-//            String servidor = "jdbc:mysql://localhost/tiquetes";
+            String uname = "root";
+            String pwd = "";
+            String servidor = "jdbc:mysql://localhost/tiquetes";
 
 //            String uname = "u703774007_ch";
 //            String pwd = "tko671029";
@@ -33,6 +33,7 @@ public class Conexion {
 
             Class.forName("com.mysql.jdbc.Driver");
             try {
+//                System.out.println(servidor+", "+uname+","+pwd);
                 conn = DriverManager.getConnection(servidor,uname,pwd);
             } catch (SQLException ex) {
                 ex.printStackTrace();

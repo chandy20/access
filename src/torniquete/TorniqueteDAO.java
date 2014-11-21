@@ -382,7 +382,7 @@ public class TorniqueteDAO {
 //                System.out.println("fecha inicio: " + calFechaInicial + "Fecha fin: " + calFechaFinal);
                 long segundos = ((calFechaFinal.getTimeInMillis() - calFechaInicial.getTimeInMillis()) / 1000);
                 System.out.println("segundos: " + segundos);
-                if (segundos > 5) {
+                if (segundos > 2) {
                     respuesta = "false";
                 } else {
                     respuesta = "true";
@@ -551,6 +551,28 @@ public class TorniqueteDAO {
         }
         return people_activity;
     }
+    
+    public int existeIngreso(int pers_id, int activity) { // solo para cuando es entrada y salida (aforo >0 )
+        int people_activity = 0;
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        System.out.println("Fecha Sistema: " + dateFormat.format(date));
+        String sql = "select id from activities_people where  person_id = " + pers_id + " AND activity_id = " + activity + " AND fecha_entrada is not null AND fecha_salida is not null";
+        System.out.println("Sql: " + sql);
+        try {
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery(sql);
+            //Si ya hay un registro en la base de datos, tomo los ingresos y valido si no ha excedido el limite
+            if (rs.next()) {
+                people_activity = rs.getInt("id");
+            }
+            rs.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return people_activity;
+    }
 
     public int obtenerControlAforo(int activity) { // solo para cuando es entrada y salida (aforo >0 )
         int control_aforo = 0;
@@ -596,12 +618,12 @@ public class TorniqueteDAO {
         return control_aforo;
     }
 
-    public int verificarCupo(String codigo) {
+    public int verificarCupo(String codigo,int activity) {
         int cupo = 0;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         System.out.println("Fecha Sistema: " + dateFormat.format(date));
-        String sql = "select ca.id from cupos_activities ca INNER JOIN inputs i ON i.id = ca.input_id where i.entr_codigo =" + codigo + " AND activo = 1";
+        String sql = "select ca.id from cupos_activities ca INNER JOIN inputs i ON i.id = ca.input_id where i.entr_codigo =" + codigo + " AND ca.activo = 1 AND ca.activity_id = "+activity+"";
         System.out.println("Sql: " + sql);
         try {
             Statement statement = connection.createStatement();
@@ -640,12 +662,12 @@ public class TorniqueteDAO {
         return cupo;
     }
 
-    public int consultarCuposAsignados() {
+    public int consultarCuposAsignados(int activity) {
         int cupo_disp = 0;
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = new Date();
         System.out.println("Fecha Sistema: " + dateFormat.format(date));
-        String sql = "select count(*) as total FROM `cupos_activities` WHERE `activity_id`= 1 AND activo = true group by `activity_id`";
+        String sql = "select count(*) as total FROM `cupos_activities` WHERE `activity_id`= "+activity+" AND activo = true group by `activity_id`";
         System.out.println("Sql: " + sql);
         try {
             Statement statement = connection.createStatement();
