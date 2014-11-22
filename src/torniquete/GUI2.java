@@ -10,6 +10,8 @@ package torniquete;
  * @author Developer
  */
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -33,6 +35,29 @@ public class GUI2 extends javax.swing.JFrame {
         initComponents();
         this.setExtendedState(this.MAXIMIZED_BOTH);
         createObjects();
+        jComboBox1.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e) {
+                jComboBox2.removeAllItems();
+                if (lisids != null) {
+                    even_id = (int) lisids.get(jComboBox1.getSelectedIndex());
+                    jComboBox2.addItem("ACCESO PRINCIPAL");
+                    ArrayList Subeventos = (ArrayList) control.consultarSubEventos(even_id);
+                    if (Subeventos != null) {
+                        for (int i = 1; i < Subeventos.size(); i = i + 2) {
+                            jComboBox2.addItem(Subeventos.get(i));
+                        }
+                        for (int i = 0; i < Subeventos.size(); i = i + 2) {
+                            lisSubids.add(Subeventos.get(i));
+                        }
+                    } else {
+                        lisSubids = null;
+                    }
+                } else {
+                    lisids = null;
+                    jLabel1.setText("NO EXISTEN EVENTOS ACTIVOS");
+                }
+            }
+        });
         Connection connection = Conexion.getConnection();
         if (connection != null) {
             System.out.print(connection);
@@ -95,7 +120,8 @@ public class GUI2 extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(255, 255, 255));
+        setUndecorated(true);
+	setBackground(new java.awt.Color(255, 255, 255));
         setResizable(false);
 
         jLayeredPane1.setBackground(new java.awt.Color(255, 255, 255));
@@ -939,27 +965,27 @@ public class GUI2 extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void jComboBox1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jComboBox1MousePressed
-        jComboBox2.removeAllItems();
-        if (lisids != null) {
-            even_id = (int) lisids.get(jComboBox1.getSelectedIndex());
-            jComboBox2.addItem("ACCESO PRINCIPAL");
-            ArrayList Subeventos = (ArrayList) control.consultarSubEventos(even_id);
-            if (Subeventos != null) {
-                for (int i = 1; i < Subeventos.size(); i = i + 2) {
-                    jComboBox2.addItem(Subeventos.get(i));
-                }
-                for (int i = 0; i < Subeventos.size(); i = i + 2) {
-                    lisSubids.add(Subeventos.get(i));
-                }
-            } else {
-                lisSubids = null;
-            }
-        } else {
-            lisids = null;
-            jLabel1.setText("NO EXISTEN EVENTOS ACTIVOS");
-        }
+//        jComboBox2.removeAllItems();
+//        if (lisids != null) {
+//            even_id = (int) lisids.get(jComboBox1.getSelectedIndex());
+//            jComboBox2.addItem("ACCESO PRINCIPAL");
+//            ArrayList Subeventos = (ArrayList) control.consultarSubEventos(even_id);
+//            if (Subeventos != null) {
+//                for (int i = 1; i < Subeventos.size(); i = i + 2) {
+//                    jComboBox2.addItem(Subeventos.get(i));
+//                }
+//                for (int i = 0; i < Subeventos.size(); i = i + 2) {
+//                    lisSubids.add(Subeventos.get(i));
+//                }
+//            } else {
+//                lisSubids = null;
+//            }
+//        } else {
+//            lisids = null;
+//            jLabel1.setText("NO EXISTEN EVENTOS ACTIVOS");
+//        }
     }//GEN-LAST:event_jComboBox1MousePressed
-
+    
     /**
      * @param args the command line arguments
      */
